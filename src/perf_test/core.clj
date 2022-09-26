@@ -27,8 +27,7 @@
   (defn decode-jsonista-fast [x] (.readValue mapper ^String x ^Class Object)))
 
 (let [mapper (j/object-mapper
-              {:modules [(j/java-collection-module)]
-               :encode-key-fn name
+              {:encode-key-fn name
                :decode-key-fn keyword})]
   (defn encode-jsonista-fastk [x] (.writeValueAsString mapper x))
   (defn decode-jsonista-fastk [x] (.readValue mapper ^String x ^Class Object)))
