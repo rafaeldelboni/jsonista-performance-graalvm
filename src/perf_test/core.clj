@@ -26,6 +26,13 @@
   (defn encode-jsonista-fast [x] (.writeValueAsString mapper x))
   (defn decode-jsonista-fast [x] (.readValue mapper ^String x ^Class Object)))
 
+(let [mapper (j/object-mapper
+              {:modules [(j/java-collection-module)]
+               :encode-key-fn name
+               :decode-key-fn keyword})]
+  (defn encode-jsonista-fastk [x] (.writeValueAsString mapper x))
+  (defn decode-jsonista-fastk [x] (.readValue mapper ^String x ^Class Object)))
+
 (let [mapper (ObjectMapper.)]
   (defn encode-jackson [x] (.writeValueAsString mapper x))
   (defn decode-jackson [x] (.readValue mapper ^String x ^Class Object)))
@@ -45,6 +52,7 @@
                       encode-jsonista
                       encode-jsonista-map
                       encode-jackson
+                      encode-jsonista-fastk
                       encode-jsonista-fast]
                  :args [:state/edn]}
                 {:name :decode
@@ -53,6 +61,7 @@
                       decode-jsonista
                       decode-jsonista-map
                       decode-jackson
+                      decode-jsonista-fastk
                       decode-jsonista-fast]
                  :args [:state/json]}]
    :params {:size ["10b" "100b" "1k" "10k" "100k"]}
